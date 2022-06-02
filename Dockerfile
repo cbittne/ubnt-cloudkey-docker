@@ -4,11 +4,12 @@ FROM debian:stretch
 # Preconfigure docker image for CloudKey Environment
 ##
 
-RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash
+RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash wget
 
 # Configure official Ubiquiti APT repository
-RUN echo "deb https://ubnt.bintray.com/apt stretch main" | tee -a /etc/apt/sources.list
+RUN echo "deb [trusted=yes] https://apt.artifacts.ui.com stretch main release" | tee -a /etc/apt/sources.list.d/ubiquiti.list
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 379CE192D401AB61
+RUN wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ui.com/unifi/unifi-repo.gpg 
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update && apt-get upgrade -y
