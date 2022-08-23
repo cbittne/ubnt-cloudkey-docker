@@ -33,39 +33,39 @@ STOPSIGNAL SIGKILL
 ##
 # Install UbiOS packages
 ##
-RUN apt-get install -y ulp-go
+RUN apt-get install -y ulp-go=0.1.18-1101
 
 # Patch Version as the newest isnt released yet for some reason
-RUN sed -i 's/Version: 0.1.12-1044/Version: 0.1.18-1101/g' /var/lib/dpkg/status
-RUN sed -i 's/VersionCode: 1044/VersionCode: 1101/g' /var/lib/dpkg/status
+#RUN sed -i 's/Version: 0.1.12-1044/Version: 0.1.18-1101/g' /var/lib/dpkg/status
+#RUN sed -i 's/VersionCode: 1044/VersionCode: 1101/g' /var/lib/dpkg/status
 
-RUN apt-get install -y unifi-core libcap2-bin
+RUN apt-get install -y unifi-core=1.0.6 libcap2-bin
 RUN adduser unifi-core sudo
 RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/node
 
 ##
 # Install UniFi Access
 #
-RUN apt-get install -y unifi-access
+#RUN apt-get install -y unifi-access
 
 ##
 # Install UniFi Protect
 #
 
 # Patch Version as the newest isnt released yet for some reason
-RUN awk '$0=="Version: 1.0.6"{$0="Version: 1.4.2"};1' /var/lib/dpkg/status  > /var/lib/dpkg/status-tmp && mv /var/lib/dpkg/status-tmp /var/lib/dpkg/status
-# RUN apt-get install -y unifi-protect=1.14.8
-RUN apt-get install -y unifi-protect
-RUN systemctl enable unifi-protect
+#RUN awk '$0=="Version: 1.0.6"{$0="Version: 1.4.2"};1' /var/lib/dpkg/status  > /var/lib/dpkg/status-tmp && mv /var/lib/dpkg/status-tmp /var/lib/dpkg/status
+RUN apt-get install -y unifi-protect=1.12.5
+#RUN systemctl enable unifi-protect
 
 ##
 # Install UniFi LED
 #
 #RUN apt-get install -y unifi-led
-#RUN apt-get install -y unifi 
-#RUN chown -R root /var/lib/unifi /var/log/unifi /var/run/unifi
-#RUN sed -i 's/UNIFI_USER:-unifi/UNIFI_USER:-root/g' /usr/lib/unifi/bin/unifi.init
-#RUN sed -i 's/UNIFI_CORE_ENABLED:-"false"/UNIFI_CORE_ENABLED:-"true"/g' /usr/lib/unifi/bin/unifi.init
+
+RUN apt-get install -y unifi 
+RUN chown -R root /var/lib/unifi /var/log/unifi /var/run/unifi
+RUN sed -i 's/UNIFI_USER:-unifi/UNIFI_USER:-root/g' /usr/lib/unifi/bin/unifi.init
+RUN sed -i 's/UNIFI_CORE_ENABLED:-"false"/UNIFI_CORE_ENABLED:-"true"/g' /usr/lib/unifi/bin/unifi.init
 
 
 COPY rootfs/ /
