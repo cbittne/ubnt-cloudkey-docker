@@ -54,7 +54,8 @@ RUN apt-get install -y unifi-access
 
 # Patch Version as the newest isnt released yet for some reason
 RUN awk '$0=="Version: 1.0.6"{$0="Version: 1.4.2"};1' /var/lib/dpkg/status  > /var/lib/dpkg/status-tmp && mv /var/lib/dpkg/status-tmp /var/lib/dpkg/status
-RUN apt-get install -y unifi-protect=1.14.8
+# RUN apt-get install -y unifi-protect=1.14.8
+RUN apt-get install -y unifi-protect
 RUN systemctl enable unifi-protect
 
 ##
